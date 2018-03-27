@@ -32,21 +32,34 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
+# lock screen 
+bindsym control+mod1+l exec /home/jwo/bin/wp.sh
+
+# exec my apps
+bindsym control+mod1+a exec /home/jwo/bin/i3_load_layout.sh
+
+# move workspace left
+bindsym $mod+m  move workspace to output right
+bindsym $mod+n  move workspace to output left 
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-#bindsym $mod+d exec j4-dmenu-desktop
+bindsym $mod+d exec i3-dmenu-desktop
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
- bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
+
+#change to urgent
+bindsym $mod+x [urgent=lastest] focus
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -152,5 +165,13 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3blocks
+        tray_output HDMI-1 
 }
+
+for_window [class="ck2"] floating enable
+for_window [title="(?i)tomaatti" class="(?i)tk"] floating enable move position center urgent
+
+exec /home/jwo/bin/change-wallpaper.pl --wallpaper_dir="/home/jwo/Pictures/wallpapers"
+exec /home/jwo/bin/unmute-headphone.sh
+exec /home/jwo/bin/gpgagent.sh
