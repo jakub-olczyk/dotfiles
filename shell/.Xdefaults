@@ -1,0 +1,8 @@
+xterm*background: #080808
+xterm*foreground: #f6f3e8
+xterm*pointerColor: black
+xterm*pointerColorBackground: #656565
+xterm*termName: xterm-256color
+xterm*faceName: Liberation Mono Regular:size=11:antialias=true
+xterm*font: 5x7
+xterm*eightBitInput: false
