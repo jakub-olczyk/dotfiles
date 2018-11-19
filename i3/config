@@ -179,4 +179,3 @@ for_window [title="(?i)tomaatti" class="(?i)tk"] floating enable move position c
 exec /home/jwo/bin/change-wallpaper.pl --wallpaper_dir="/home/jwo/Pictures/wallpapers"
 exec /home/jwo/bin/unmute-headphone.sh
 exec /home/jwo/bin/gpgagent.sh
-exec 'sudo ntpdate pool.ntp.org'
