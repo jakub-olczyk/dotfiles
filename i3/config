@@ -105,6 +105,10 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+#i3-input
+
+bindsym $mod+i exec "i3-input"
+
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
@@ -175,3 +179,4 @@ for_window [title="(?i)tomaatti" class="(?i)tk"] floating enable move position c
 exec /home/jwo/bin/change-wallpaper.pl --wallpaper_dir="/home/jwo/Pictures/wallpapers"
 exec /home/jwo/bin/unmute-headphone.sh
 exec /home/jwo/bin/gpgagent.sh
+exec 'sudo ntpdate pool.ntp.org'
