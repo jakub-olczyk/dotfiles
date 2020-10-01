@@ -1,0 +1,147 @@
+--- /home/jwo/git-repos/no-place-like-home/i3/config	2019-09-29 14:29:43.853837332 +0200
++++ config	2020-07-16 11:08:53.998457190 +0200
+@@ -13,11 +13,11 @@
+ 
+ # Font for window titles. Will also be used by the bar unless a different font
+ # is used in the bar {} block below.
+-font pango:monospace 8
++font pango:mononoki 14, FontAwesome 10
+ 
+ # This font is widely installed, provides lots of unicode glyphs, right-to-left
+ # text rendering and scalability on retina/hidpi displays (thanks to pango).
+-#font pango:DejaVu Sans Mono 8
++#font pango:DejaVu Sans Mono 10, Awesome 10
+ 
+ # Before i3 v4.8, we used to recommend this one as the default:
+ # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+@@ -32,25 +32,26 @@
+ # start a terminal
+ bindsym $mod+Return exec i3-sensible-terminal
+ 
+-# lock screen 
+-bindsym control+mod1+l exec /home/jwo/bin/wp.sh
+-
+-# exec my apps
+-bindsym control+mod1+a exec /home/jwo/bin/i3_load_layout.sh
+-
+-# move workspace left
+-bindsym $mod+m  move workspace to output right
+-bindsym $mod+n  move workspace to output left 
+-
+ # kill focused window
+ bindsym $mod+Shift+q kill
+ 
+ # start dmenu (a program launcher)
+-bindsym $mod+d exec i3-dmenu-desktop
++# bindsym $mod+d exec dmenu_run
+ # There also is the (new) i3-dmenu-desktop which only displays applications
+ # shipping a .desktop file. It is a wrapper around dmenu, so you need that
+ # installed.
+-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
++bindsym $mod+d exec --no-startup-id XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/pkg/share/ i3-dmenu-desktop --dmenu='dmenu -fn "Mononoki:pixelsize=25" -i'
++
++# lock
++bindsym control+$mod+l exec /home/jwo/bin/wp.sh
++
++# change wallpaper
++bindsym control+$mod+p exec /home/jwo/bin/change-wallpaper.pl --wallpaper_dir="/home/jwo/Pictures/"
++
++bindsym control+Shift+a exec '/home/jwo/bin/i3-apps.sh'
++
++# i3input
++bindsym $mod+i exec i3-input
+ 
+ # change focus
+ bindsym $mod+j focus left
+@@ -58,9 +59,6 @@
+ bindsym $mod+l focus up
+ bindsym $mod+semicolon focus right
+ 
+-#change to urgent
+-bindsym $mod+x [urgent=lastest] focus
+-
+ # alternatively, you can use the cursor keys:
+ bindsym $mod+Left focus left
+ bindsym $mod+Down focus down
+@@ -105,10 +103,6 @@
+ # focus the child container
+ #bindsym $mod+d focus child
+ 
+-#i3-input
+-
+-bindsym $mod+i exec "i3-input"
+-
+ # switch to workspace
+ bindsym $mod+1 workspace 1
+ bindsym $mod+2 workspace 2
+@@ -133,6 +127,9 @@
+ bindsym $mod+Shift+9 move container to workspace 9
+ bindsym $mod+Shift+0 move container to workspace 10
+ 
++# move workspace to different output
++bindsym $mod+m move workspace to output left
++
+ # reload the configuration file
+ bindsym $mod+Shift+c reload
+ # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+@@ -169,13 +166,54 @@
+ # Start i3bar to display a workspace bar (plus the system information i3status
+ # finds out, if available)
+ bar {
++    output primary
++    output HDMI1
++
++    # auto hide, pretty neat for distraction free environment
++        #mode hide
++        #hidden_state hide
++        #modifier $mod
++        
+         status_command i3blocks
+-        tray_output HDMI-1 
++        font pango:mononoki 11
+ }
+ 
+-for_window [class="ck2"] floating enable
+-for_window [title="(?i)tomaatti" class="(?i)tk"] floating enable move position center urgent
++# laptop bar
++bar {
++        output eDP1
++        status_command i3blocks
++        font pango:mononoki 15
++}
++
++for_window [title="(?i)calculator"] floating enable move position center urgent
++
++# SOUND
++bindsym XF86AudioMute		exec --no-startup-id amixer set Master toggle
++bindsym XF86AudioMicMute	exec --no-startup-id amixer set Capture toggle
++bindsym XF86AudioRaiseVolume	exec --no-startup-id amixer set Master 5%+
++bindsym XF86AudioLowerVolume	exec --no-startup-id amixer set Master 5%-
++
++# MUSIC
++bindsym XF86AudioPlay       exec --no-startup-id audacious -t
++bindsym XF86AudioStop       exec --no-startup-id audacious -s
++bindsym XF86AudioNext       exec --no-startup-id audacious -f
++bindsym XF86AudioPrev       exec --no-startup-id audacious -r
++
++
++# Random Shiet
++bindsym XF86Calculator exec --no-startup-id gnome-calculator
++
++# Backlight
++bindsym XF86MonBrightnessUp	exec --no-startup-id xbacklight -inc 5
++bindsym XF86MonBrightnessDown	exec --no-startup-id xbacklight -dec 5
++
++exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
++exec_always --no-startup-id gnome-power-manager
++exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
++exec --no-startup-id gnome-flashback
++exec nm-applet
++
++exec --no-startup-id 'DISPLAY=":0" /home/jwo/bin/change_wallpaper.pl --wallpaper_dir="/home/jwo/Pictures/"'
+ 
+-exec /home/jwo/bin/change-wallpaper.pl --wallpaper_dir="/home/jwo/Pictures/wallpapers"
+-exec /home/jwo/bin/unmute-headphone.sh
+-exec /home/jwo/bin/gpgagent.sh
++# start the default applications 
++exec --no-startup-id 'DISPLAY=":0" xrdb -cpp /usr/bin/cpp /home/jwo/.Xresources'
